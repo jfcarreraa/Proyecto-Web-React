@@ -13,15 +13,15 @@ const Navigation = () => {
     setLogged(false);
   };
   return (
-    <div>
-      <nav>
-        <ul>
-          <li>
+    <div className="main-container">
+      <nav className="navbar">
+        <ul className="navbar-list">
+          <li className="navbar-item">
             <button onClick={() => navigate("/")}>Home</button>
           </li>
         </ul>
       </nav>
-      <button onClick={handleLogout}>Logout</button>
+      <button className="logout-button" onClick={handleLogout}>Logout</button>
       <Outlet />
     </div>
   );
