@@ -11,6 +11,7 @@ const Navigation = ({ setLogged }) => {
     <div className="main-container">
       <nav className="navbar">
         <ul className="navbar-list">
+          
           <li className="navbar-item">
             <Link to="/" className="nav-link">Home</Link>
           </li>
