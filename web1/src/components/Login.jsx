@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import "../Styles/login.scss";
+import "../styles/styles.scss";
 
-const Login = () => {
+const Login = (props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [users, setUsers] = useState([]);
@@ -62,6 +62,7 @@ const Login = () => {
     if (loginUser) {
       localStorage.setItem("user", JSON.stringify(loginUser));
       localStorage.setItem("isLogged", "true");
+      props.setLogged(true);
       setLoginError("");
     } else setLoginError("El usuario no existe");
 
@@ -69,9 +70,9 @@ const Login = () => {
   };
 
   return (
-    <div class="login-container">
-      <div class="login-card">
-        <form class="form" onSubmit={handleSubmit}>
+    <div className="login-container">
+      <div className="login-card">
+        <form className="form" onSubmit={handleSubmit}>
           <label>
             Username:
             <input
