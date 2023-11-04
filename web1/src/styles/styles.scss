@@ -1,0 +1,62 @@
+// login.scss
+
+// Colores
+$background-color: #f0f0f0;
+$text-color: #333;
+$button-bg-color: #007bff;
+$button-text-color: #fff;
+
+// Tamaños de fuente
+$font-size-small: 14px;
+$font-size-medium: 16px;
+$font-size-large: 18px;
+
+// Espaciado
+$spacing-small: 8px;
+$spacing-medium: 16px;
+$spacing-large: 24px;
+
+.login-container {
+  background: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.login-card {
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: $spacing-medium;
+  text-align: center;
+  width: 400px;
+
+
+  .form {
+    margin-top: $spacing-medium;
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: $spacing-small;
+      margin: $spacing-small 0;
+      border: 2px solid #ccc;
+      border-radius: 3px;
+    }
+
+    button {
+      background: $button-bg-color;
+      color: $button-text-color;
+      border: none;
+      border-radius: 3px;
+      padding: $spacing-small $spacing-medium;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        background: darken($button-bg-color, 10%);
+      }
+    }
+  }
+}

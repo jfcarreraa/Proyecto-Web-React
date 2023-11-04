@@ -7,7 +7,6 @@ const Home = () => {
   return (
     <div>
       <div>Home</div>
-      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 };
