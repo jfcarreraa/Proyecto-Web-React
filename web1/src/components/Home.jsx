@@ -5,6 +5,7 @@ import "../styles/styles.scss";
 
 const Home = () => {
   const [allPosts, setAllPosts] = useState([]);
+  const [users, setUsers] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
   const [showAllPosts, setShowAllPosts] = useState(false);
   const [postsToShow, setPostsToShow] = useState(5);
@@ -23,6 +24,14 @@ const Home = () => {
       })
       .catch((error) => {
         console.error("Error fetching posts: ", error);
+      });
+    fetch("https://dummyjson.com/users")
+      .then((response) => response.json())
+      .then((data) => {
+        setUsers(data.users);
+      })
+      .catch((error) => {
+        console.error("Error fetching users: ", error);
       });
   }, []);
 
@@ -47,16 +56,24 @@ const Home = () => {
       <button onClick={showPosts}>Toggle Posts</button>
       <ul>
         {showAllPosts
-          ? allPosts
-              .slice(0, postsToShow)
-              .map((post) => (
+          ? allPosts.slice(0, postsToShow).map((post) => {
+              const userP = users.find((u) => u.id === post.userId);
+              const user = userP
+                ? {
+                    id: userP.id,
+                    firstName: userP.firstName,
+                    lastName: userP.lastName,
+                  }
+                : { id: "unknown", firstName: "Unknown", lastName: "User" };
+              return (
                 <Post
                   key={post.id}
                   post={post}
                   user={user}
                   onPostClick={handlePostClick}
                 />
-              ))
+              );
+            })
           : filteredPosts.map((post) => (
               <Post
                 key={post.id}

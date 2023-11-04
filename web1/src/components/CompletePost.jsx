@@ -5,6 +5,7 @@ import "../styles/styles.scss";
 
 const CompletePost = ({ id }) => {
   const [comments, setComments] = useState([]);
+  const [user, setUser] = useState([]);
   const location = useLocation();
   const { state } = location;
   const { post } = state;
@@ -38,6 +39,17 @@ const CompletePost = ({ id }) => {
       });
   }, []);
 
+  useEffect(() => {
+    fetch(`https://dummyjson.com/users?id=${post.userId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUser(data.users[0]);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data: ", error);
+      });
+  }, [post.userId]);
+
   const goBack = () => {
     navigate("/");
   };
@@ -60,7 +72,10 @@ const CompletePost = ({ id }) => {
       <h2>Post ID: {post.id}</h2>
       <h2>Title: {post.title}</h2>
       <p>Body: {post.body}</p>
-      <p>Published by: {post.userId}</p>
+      <p>
+        Published by:{" "}
+        {user ? `${user.firstName} ${user.lastName}` : "Unknown User"}{" "}
+      </p>
       <ul>
         {post.tags && (
           <li>
