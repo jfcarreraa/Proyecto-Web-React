@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import Post from "./Post";
+import "../styles/styles.scss";
 
 const Home = () => {
   const [allPosts, setAllPosts] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
   const [showAllPosts, setShowAllPosts] = useState(false);
-  const [postsToShow, setPostsToShow] = useState(5);
+  const [postsToShow, setPostsToShow] = useState(10);
   // eslint-disable-next-line
-  const [postsToLoad, setPostsToLoad] = useState(5);
+  const [postsToLoad, setPostsToLoad] = useState(10);
+  const [selectedPost, setSelectedPost] = useState(null);
 
   useEffect(() => {
     fetch("https://dummyjson.com/posts")
@@ -30,21 +32,62 @@ const Home = () => {
     setPostsToShow(postsToShow + postsToLoad);
   };
 
+  const handlePostClick = (post) => {
+    setSelectedPost(post);
+  };
+
+  const closePostModal = () => {
+    setSelectedPost(null);
+  };
+
   return (
     <div>
-      <h1>{showAllPosts ? "All Posts" : "Your Posts"}</h1>
+      <h1>{showAllPosts ? "All Posts" : "Your Posts"}</h1> {/* esto se divide en los post mios y todos los post */}
       <button onClick={showPosts}>Toggle Posts</button>
-      <ul>
+      
+      <ul className="grid-list" >
         {showAllPosts
           ? allPosts
               .slice(0, postsToShow)
-              .map((post) => <Post key={post.id} post={post} user={user} />)
+              .map((post) => (
+                <li>
+                  <Post
+                  key={post.id}
+                  post={post}
+                  user={user}
+                  onPostClick={handlePostClick}
+                />
+                </li>
+              ))
           : filteredPosts.map((post) => (
-              <Post key={post.id} post={post} user={user} />
+              <li>
+                <Post
+                key={post.id}
+                post={post}
+                user={user}
+                onPostClick={handlePostClick}
+              />
+              </li>
             ))}
       </ul>
       {showAllPosts && postsToShow < allPosts.length && (
         <button onClick={showMorePosts}>Load More</button>
+      )}
+      {selectedPost && (
+        <div className="post-modal">
+          <div className="modal-content">
+            <h2>{selectedPost.title}</h2>
+            <p>{selectedPost.body}</p>
+            <p>Published by: {user.firstName}</p>
+            <ul>
+              {selectedPost.tags && (
+                <li>Tags: {selectedPost.tags.join(", ")}</li>
+              )}
+              <li>Reactions: {selectedPost.reactions}</li>
+            </ul>
+            <button onClick={closePostModal}>Close</button>
+          </div>
+        </div>
       )}
     </div>
   );

@@ -1,8 +1,8 @@
 import React from "react";
 
-const Post = ({ post, user }) => {
+const Post = ({ post, user, onPostClick }) => {
   return (
-    <div className="post" key={post.id}>
+    <div className="post" onClick={() => onPostClick(post)}>
       <h2>{post.title}</h2>
       <p>{post.body}</p>
       <p>Published by: {user.firstName}</p>{" "}
