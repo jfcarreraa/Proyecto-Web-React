@@ -56,12 +56,19 @@ const CompletePost = ({ id }) => {
   };
 
   return (
-    <div className="post">
+    
+    <div className="complete-post">
+      <button className="back-button main-container" onClick={goBack}>Go Back</button>
+
+      <div className="grid-post " >
       <h2>Post ID: {post.id}</h2>
       <h2>Title: {post.title}</h2>
       <p>Body: {post.body}</p>
       <p>Published by: {post.userId}</p>
-      <ul>
+
+
+      {/*tags y reactions*/}
+      <ul className="grid-list">
         {post.tags && (
           <li>
             Tags:{" "}
@@ -80,15 +87,20 @@ const CompletePost = ({ id }) => {
         <li>Reactions: {post.reactions}</li>
       </ul>
 
-      <button onClick={goBack}>Go Back</button>
+      </div>
+      
+
+      
       <h3>Comments</h3>
-      <ul>
+      <ul className="grid-list grid-post ">
         {comments.map((comment) => (
           <li key={comment.id}>
             <strong>{comment.user.username}:</strong> {comment.body}
           </li>
         ))}
       </ul>
+      
+      
       {tagModalVisible && (
         <div className="modal-overlay">
           <div className="modal-content">
@@ -100,6 +112,7 @@ const CompletePost = ({ id }) => {
           </div>
         </div>
       )}
+
     </div>
   );
 };

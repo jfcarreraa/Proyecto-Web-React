@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 
+
 const Navigation = () => {
   const navigate = useNavigate();
 
@@ -17,7 +18,8 @@ const Navigation = () => {
       <nav className="navbar">
         <ul className="navbar-list">
           <li className="navbar-item">
-            <button onClick={() => navigate("/")}>Home</button>
+            {/* <button onClick={() => navigate("/")}>Home</button> */}
+            <a className="nav-link Home" href="/" >Home</a>
           </li>
         </ul>
       </nav>
