@@ -1,7 +1,9 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const Navigation = ({ setLogged }) => {
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     localStorage.setItem("isLogged", "false");
     localStorage.removeItem("user");
@@ -12,7 +14,7 @@ const Navigation = ({ setLogged }) => {
       <nav>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <button onClick={() => navigate("/")}>Home</button>
           </li>
         </ul>
       </nav>

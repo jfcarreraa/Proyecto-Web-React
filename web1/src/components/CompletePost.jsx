@@ -1,38 +1,105 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import Tag from "./Tag";
+import "../styles/styles.scss";
 
-const CompletePost = ({ post, user }) => {
+const CompletePost = ({ id }) => {
   const [comments, setComments] = useState([]);
+  const location = useLocation();
+  const { state } = location;
+  const { post } = state;
+
+  const [tagModalVisible, setTagModalVisible] = useState(false);
+  const [selectedTag, setSelectedTag] = useState("");
+  const [postsWithTag, setPostsWithTag] = useState([]);
+  const [allPosts, setAllPosts] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://dummyjson.com/comments")
+    fetch(`https://dummyjson.com/comments?postId=${id}`)
       .then((response) => response.json())
       .then((data) => {
-        const postComments = data.comments.filter(
-          (comment) => comment.postId === post.id
-        );
-        setComments(postComments);
+        setComments(data.comments);
       })
       .catch((error) => {
         console.error("Error fetching comments: ", error);
       });
-  }, [post.id]);
+  }, [id]);
+
+  useEffect(() => {
+    fetch("https://dummyjson.com/posts")
+      .then((response) => response.json())
+      .then((data) => {
+        setAllPosts(data.posts);
+      })
+      .catch((error) => {
+        console.error("Error fetching posts: ", error);
+      });
+  }, []);
+
+  const goBack = () => {
+    navigate("/");
+  };
+
+  const openTagModal = (tag) => {
+    setSelectedTag(tag);
+    const relatedPosts = allPosts.filter(
+      (post) => post.tags && post.tags.includes(tag)
+    );
+    setPostsWithTag(relatedPosts);
+    setTagModalVisible(true);
+  };
+
+  const closeTagModal = () => {
+    setTagModalVisible(false);
+  };
 
   return (
-    <div className="post" key={post.id}>
-      <h2>{post.title}</h2>
-      <p>{post.body}</p>
-      <p>Published by: {user.firstName}</p>
+    <div className="post">
+      <h2>Post ID: {post.id}</h2>
+      <h2>Title: {post.title}</h2>
+      <p>Body: {post.body}</p>
+      <p>Published by: {post.userId}</p>
       <ul>
-        {post.tags && <li>Tags: {post.tags.join(", ")}</li>}
+        {post.tags && (
+          <li>
+            Tags:{" "}
+            {post.tags.map((tag) => (
+              <span
+                key={tag}
+                className="tag-link"
+                onClick={() => openTagModal(tag)}
+              >
+                {tag}
+                {", "}
+              </span>
+            ))}
+          </li>
+        )}
         <li>Reactions: {post.reactions}</li>
       </ul>
 
-      <h3>Comments:</h3>
+      <button onClick={goBack}>Go Back</button>
+      <h3>Comments</h3>
       <ul>
         {comments.map((comment) => (
-          <li key={comment.id}>{comment.body}</li>
+          <li key={comment.id}>
+            <strong>{comment.user.username}:</strong> {comment.body}
+          </li>
         ))}
       </ul>
+      {tagModalVisible && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <Tag
+              tag={selectedTag}
+              posts={postsWithTag}
+              onClose={closeTagModal}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

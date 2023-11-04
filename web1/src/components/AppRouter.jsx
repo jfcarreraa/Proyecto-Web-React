@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import Navigation from "./Navigation";
 import Login from "./Login";
+import CompletePost from "./CompletePost";
 const AppRouter = (props) => {
   return (
     <>
@@ -13,6 +14,7 @@ const AppRouter = (props) => {
             <Routes>
               <Route path="/" exact Component={Home}></Route>
               <Route path="/login" exact Component={Login}></Route>
+              <Route path="/post/:id" exact Component={CompletePost}></Route>
               <Route path="/*" Component={Home}>
                 {" "}
               </Route>
