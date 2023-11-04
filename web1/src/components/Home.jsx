@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Post from "./Post";
+import { useNavigate } from "react-router-dom";
 import "../styles/styles.scss";
 
 const Home = () => {
@@ -8,8 +9,11 @@ const Home = () => {
   const [showAllPosts, setShowAllPosts] = useState(false);
   const [postsToShow, setPostsToShow] = useState(10);
   // eslint-disable-next-line
-  const [postsToLoad, setPostsToLoad] = useState(10);
+  const [postsToLoad, setPostsToLoad] = useState(5);
+  // eslint-disable-next-line
   const [selectedPost, setSelectedPost] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://dummyjson.com/posts")
@@ -34,10 +38,7 @@ const Home = () => {
 
   const handlePostClick = (post) => {
     setSelectedPost(post);
-  };
-
-  const closePostModal = () => {
-    setSelectedPost(null);
+    navigate(`/post/${post.id}`, { state: { post } });
   };
 
   return (
@@ -72,22 +73,6 @@ const Home = () => {
       </ul>
       {showAllPosts && postsToShow < allPosts.length && (
         <button onClick={showMorePosts}>Load More</button>
-      )}
-      {selectedPost && (
-        <div className="post-modal">
-          <div className="modal-content">
-            <h2>{selectedPost.title}</h2>
-            <p>{selectedPost.body}</p>
-            <p>Published by: {user.firstName}</p>
-            <ul>
-              {selectedPost.tags && (
-                <li>Tags: {selectedPost.tags.join(", ")}</li>
-              )}
-              <li>Reactions: {selectedPost.reactions}</li>
-            </ul>
-            <button onClick={closePostModal}>Close</button>
-          </div>
-        </div>
       )}
     </div>
   );

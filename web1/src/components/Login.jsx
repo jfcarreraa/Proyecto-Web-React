@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-
 import "../styles/styles.scss";
 
 const Login = (props) => {
