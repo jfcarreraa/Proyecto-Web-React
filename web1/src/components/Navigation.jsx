@@ -8,21 +8,15 @@ const Navigation = ({ setLogged }) => {
     setLogged(false);
   };
   return (
-    <div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/contact">Contact</Link>
+    <div className="main-container">
+      <nav className="navbar">
+        <ul className="navbar-list">
+          <li className="navbar-item">
+            <Link to="/" className="nav-link">Home</Link>
           </li>
         </ul>
       </nav>
-      <button onClick={handleLogout}>Logout</button>
+      <button className="logout-button" onClick={handleLogout}>Logout</button>
       <Outlet />
     </div>
   );
