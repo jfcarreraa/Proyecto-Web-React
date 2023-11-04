@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { UserContext } from "../App";
 
-const Navigation = ({ setLogged }) => {
+const Navigation = () => {
   const navigate = useNavigate();
+
+  const setLogged = useContext(UserContext);
 
   const handleLogout = () => {
     localStorage.setItem("isLogged", "false");
