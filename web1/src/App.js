@@ -3,6 +3,8 @@ import './App.css';
 import Login from './components/Login';
 import AppRouter from "./components/AppRouter"
 
+export const UserContext = React.createContext();
+
 function App() {
   const [logged, setLogged] = useState(false);
   
@@ -14,13 +16,15 @@ function App() {
   },[])
 
   return (
-    <div className="App">
-      {logged ? (
-        <AppRouter setLogged={setLogged}/>
-      ) : (
-        <Login logged={logged} setLogged={setLogged}/>
-      )}
-    </div>
+    <UserContext.Provider value={setLogged}>
+      <div className="App">
+        {logged ? (
+          <AppRouter />
+        ) : (
+          <Login />
+        )}
+      </div>
+    </UserContext.Provider>
   );
 }
 

@@ -12,7 +12,7 @@ const Tag = ({ tag, posts, onClose }) => {
           </li>
         ))}
       </ul>
-      <button onClick={onClose}>Close</button>
+      <button className="logout-button" onClick={onClose}>Close</button>
     </div>
   );
 };

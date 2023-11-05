@@ -8,7 +8,7 @@ const Home = () => {
   const [users, setUsers] = useState([]);
   const user = JSON.parse(localStorage.getItem("user"));
   const [showAllPosts, setShowAllPosts] = useState(false);
-  const [postsToShow, setPostsToShow] = useState(5);
+  const [postsToShow, setPostsToShow] = useState(10);
   // eslint-disable-next-line
   const [postsToLoad, setPostsToLoad] = useState(5);
   // eslint-disable-next-line
@@ -52,9 +52,9 @@ const Home = () => {
 
   return (
     <div>
-      <h1>{showAllPosts ? "All Posts" : "Your Posts"}</h1>
+      <h1>{showAllPosts ? "All Posts" : "Your Posts"}</h1>{" "}
       <button onClick={showPosts}>Toggle Posts</button>
-      <ul>
+      <ul className="grid-list">
         {showAllPosts
           ? allPosts.slice(0, postsToShow).map((post) => {
               const userP = users.find((u) => u.id === post.userId);
@@ -66,21 +66,25 @@ const Home = () => {
                   }
                 : { id: "unknown", firstName: "Unknown", lastName: "User" };
               return (
+                <li key={post.id}>
+                  <Post
+                    key={post.id}
+                    post={post}
+                    user={user}
+                    onPostClick={handlePostClick}
+                  />
+                </li>
+              );
+            })
+          : filteredPosts.map((post) => (
+              <li key={post.id}>
                 <Post
                   key={post.id}
                   post={post}
                   user={user}
                   onPostClick={handlePostClick}
                 />
-              );
-            })
-          : filteredPosts.map((post) => (
-              <Post
-                key={post.id}
-                post={post}
-                user={user}
-                onPostClick={handlePostClick}
-              />
+              </li>
             ))}
       </ul>
       {showAllPosts && postsToShow < allPosts.length && (

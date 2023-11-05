@@ -10,7 +10,7 @@ const AppRouter = (props) => {
       <Router>
         <div className="app">
           <main>
-            <Navigation setLogged={props.setLogged} />
+            <Navigation />
             <Routes>
               <Route path="/" exact Component={Home}></Route>
               <Route path="/login" exact Component={Login}></Route>

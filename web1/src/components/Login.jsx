@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../styles/styles.scss";
+import { UserContext } from "../App";
 
-const Login = (props) => {
+const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [users, setUsers] = useState([]);
   // eslint-disable-next-line
   const [loading, setLoading] = useState(true);
   const [loginError, setLoginError] = useState("");
+
+  const setLogged = useContext(UserContext);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -61,7 +64,7 @@ const Login = (props) => {
     if (loginUser) {
       localStorage.setItem("user", JSON.stringify(loginUser));
       localStorage.setItem("isLogged", "true");
-      props.setLogged(true);
+      setLogged(true);
       setLoginError("");
     } else setLoginError("El usuario no existe");
 
