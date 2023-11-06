@@ -49,7 +49,15 @@ const Login = () => {
         (user.username === username || user.email === username) &&
         user.password === password
     );
-    return user;
+    if (user) {
+      return user;
+    } else if (
+      users.some((u) => u.username === username || u.email === username)
+    ) {
+      return 0;
+    } else {
+      return -1;
+    }
   };
 
   const handleSubmit = (event) => {
@@ -61,12 +69,18 @@ const Login = () => {
     }
 
     const loginUser = handleLogin(username, password);
-    if (loginUser) {
+    if (loginUser !== 0 && loginUser !== -1) {
       localStorage.setItem("user", JSON.stringify(loginUser));
       localStorage.setItem("isLogged", "true");
       setLogged(true);
       setLoginError("");
-    } else setLoginError("El usuario no existe");
+    } else if (loginUser === 0) {
+      setLoginError("Wrong password");
+      return;
+    } else if (loginUser === -1) {
+      setLoginError("User not found");
+      return;
+    }
 
     clear();
   };
