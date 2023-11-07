@@ -10,6 +10,7 @@ const AppRouter = (props) => {
       <Router>
         <div className="app">
           <main>
+            {/*Se genera el nav bar y las rutas de la app*/}
             <Navigation />
             <Routes>
               <Route path="/" exact Component={Home}></Route>

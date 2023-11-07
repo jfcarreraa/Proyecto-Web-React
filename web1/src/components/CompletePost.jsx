@@ -17,6 +17,7 @@ const CompletePost = ({ id }) => {
 
   const navigate = useNavigate();
 
+  //se cargan posts, usuarios y comentarios
   useEffect(() => {
     fetch(`https://dummyjson.com/comments?postId=${id}`)
       .then((response) => response.json())
@@ -57,6 +58,7 @@ const CompletePost = ({ id }) => {
     navigate("/");
   };
 
+  //se abre un modal con la información del post específico
   const openTagModal = (tag) => {
     setSelectedTag(tag);
     const relatedPosts = allPosts.filter(

@@ -16,6 +16,8 @@ const Home = () => {
 
   const navigate = useNavigate();
 
+  /*
+  se cargan todos los posts y todos los usuarios */
   useEffect(() => {
     fetch("https://dummyjson.com/posts")
       .then((response) => response.json())
@@ -35,16 +37,20 @@ const Home = () => {
       });
   }, []);
 
+  //se filtran los posts correspondientes al usuario loggeado
   const filteredPosts = allPosts.filter((post) => post.userId === user.id);
 
+  //toggle entre posts, todos o sólo los del usuario
   const showPosts = () => {
     setShowAllPosts(!showAllPosts);
   };
 
+  //lazy loading de todos los posts
   const showMorePosts = () => {
     setPostsToShow(postsToShow + postsToLoad);
   };
 
+  //evento de click a un post específico
   const handlePostClick = (post) => {
     setSelectedPost(post);
     navigate(`/post/${post.id}`, { state: { post } });

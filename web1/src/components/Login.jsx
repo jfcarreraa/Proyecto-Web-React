@@ -12,6 +12,9 @@ const Login = () => {
 
   const setLogged = useContext(UserContext);
 
+  /*
+  El use effect carga todos los usuarios en memoria
+  */
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -43,6 +46,10 @@ const Login = () => {
     setPassword("");
   };
 
+  /*
+  handleLogin recibe los parámetros a comprobar y devuelve tres posibles valores:
+  el usuario encontrado, 0 si existe el usuario pero la contraseña es incorrecta, -1 si no existe el usuario
+  */
   const handleLogin = (username, password) => {
     const user = users.find(
       (user) =>
@@ -61,13 +68,14 @@ const Login = () => {
   };
 
   const handleSubmit = (event) => {
-    event.preventDefault();
-
+    event.preventDefault(); //evita que se termine el evento antes de tiempo
+    //comprueba que el form esté lleno
     if (username === "" || password === "") {
       setLoginError("Debe llenar todos los datos");
       return;
     }
 
+    //maneja los posibles escenarios del login: exitoso, contraseña incorrecta, usuario invalido
     const loginUser = handleLogin(username, password);
     if (loginUser !== 0 && loginUser !== -1) {
       localStorage.setItem("user", JSON.stringify(loginUser));
